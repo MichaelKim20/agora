@@ -1,0 +1,66 @@
+################################################################################
+##                             Network interface                              ##
+################################################################################
+node:
+  # Run using test GenesisBlock and should use test addresses
+  testing: true
+
+  min_listeners: 7
+  max_listeners: 10
+  address: 0.0.0.0
+  port:    6826
+  retry_delay: 500
+  max_retries: 20
+  timeout: 10000
+  # Path to the data directory (if the path doesn't exist it will be created)
+  data_dir: .cache
+  block_interval_sec: 5
+  block_catchup_interval_secs: 5
+
+consensus:
+  validator_cycle: 20
+  slash_penalty_amount: 10000
+
+################################################################################
+##                             Validator configuration                        ##
+## The server can operate in two modes: full node and validator node.         ##
+## The full node does not participate in consensus,                           ##
+## it only replicates the state of the blockchain.                            ##
+################################################################################
+validator:
+  # Whether or not we should act as a validator
+  # When validating, the `seed` of an eligible account is required
+  # An eligible account has at least 40k coins frozen in it
+  enabled: true
+  # This is a randomly generated keypair
+  # If this node is not a validator, this will be ignored
+  #
+  # DO NOT USE THOSE VALUES ANYWHERE
+  # Private seed:    SBVADJX3I7B4FVTMTYYSJABZR4B5HMJV5LSL2DY2C5DOVIHXFLLHJXMI
+  # Public address:  GDNODE6ZXW2NNOOQIGN24MBEZRO5226LSMHGQA3MUAMYQSTJVR7XT6GH
+  seed: SBVADJX3I7B4FVTMTYYSJABZR4B5HMJV5LSL2DY2C5DOVIHXFLLHJXMI
+  # Address of the name registry
+  registry_address: disabled
+
+################################################################################
+##                               Node discovery                               ##
+##                                                                            ##
+## When the network first starts, we need to connect to some peers to learn   ##
+## the topology and find a safe intersection to listen to, and, if we are     ##
+## a validator, to insert ourselves.                                          ##
+################################################################################
+network:
+  # Supported value: IPv4, IPv6
+  - http://node-0:1826
+  - http://node-2:2826
+  - http://node-3:3826
+  - http://node-4:4826
+  - http://node-5:5826
+  - http://node-7:7826
+
+################################################################################
+##                               Logging options                              ##
+################################################################################
+logging:
+  # Values: Trace, Info, Warn, Error, Fatal, None (default)
+  level: Info
