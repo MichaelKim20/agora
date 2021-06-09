@@ -352,6 +352,7 @@ public struct EncryptionKey
 unittest
 {
     import agora.utils.Test;
+    import std.stdio;
 
     auto key_pair = WK.Keys.A;
     string app = "Votera";
@@ -364,12 +365,12 @@ unittest
         key_pair.address,
     );
 
-    Hash hash = hashFull(encryptionKey);
-    encryptionKey.signature = key_pair.secret.sign(hash);
-    assert(encryptionKey.validator.verify(encryptionKey.signature, hash));
-    assert(hash == Hash("0xda361e1772c9030afe761e6a7b3b0c79be6a28779750cd45891d9" ~
-        "3bf51440d2839a81d97c66c1f4706d2a90e442c9955406a412598c5" ~
-        "196fb8200c92844bd38a"));
+    encryptionKey.signature = key_pair.secret.sign(encryptionKey);
+    writefln("app: %s", app);
+    writefln("key: %s", hashMulti(pre_image, app).toString());
+    writefln("sec: %s", key_pair.secret.toString(PrintMode.Clear));
+    writefln("pub: %s", key_pair.address.toString());
+    writefln("sig: %s", encryptionKey.signature.toString());
 }
 
 unittest
